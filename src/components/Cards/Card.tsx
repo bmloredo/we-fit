@@ -13,7 +13,7 @@ const Cards: React.FC = () => {
   ) : (
     <CardContainer>
       {data.movies.map((movie) => (
-        <CardsMovies.Root>
+        <CardsMovies.Root key={movie.id}>
           <CardsMovies.Image image={movie.image} title={movie.title} />
           <CardsMovies.Text title={movie.title} price={movie.price} />
           <CardsMovies.Button movie={movie} addItemInCart={addItemInCart} />

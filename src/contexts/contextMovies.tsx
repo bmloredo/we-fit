@@ -26,11 +26,11 @@ export const MoviesProvider: React.FC<MoviesProviderProps> = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const handler = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", handler);
-    handler(); // Inicializa no carregamento
+    const handlerMobile = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handlerMobile);
+    handlerMobile();
 
-    return () => window.removeEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handlerMobile);
   }, []);
 
   return (

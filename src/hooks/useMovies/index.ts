@@ -11,9 +11,6 @@ const useMovies = () => {
 
   const [movies, setMovies] = useState<EntityMovies[]>([]);
   const [moviesInCart, setMoviesInCart] = useState<EntityMovies[]>([]);
-  const [trigger, setTrigger] = useState(false);
-
-  const dispatchTrigger = () => setTrigger(!trigger);
 
   const fetchMovies = useCallback(async () => {
     movies.length === 0 && setLoading(true);
@@ -25,7 +22,7 @@ const useMovies = () => {
       const data = await getMovies();
       setMovies(data);
 
-      const itemsInCart = data.filter((i) => i.in_shopping_cart);
+      const itemsInCart = data.filter((item) => item.in_shopping_cart);
       setMoviesInCart(itemsInCart);
 
       setItemsInCart(itemsInCart.length);
@@ -46,26 +43,20 @@ const useMovies = () => {
     fetchMovies();
   }, [fetchMovies]);
 
-  const clearCart = () => {
-    const loopMovies = moviesInCart.map(async (movie) => {
-      const { in_shopping_cart, quantity_in_shopping_cart, ...prev } = movie;
+  const addItemInCart = async (data: EntityMovies, value: number) => {
+    const { quantity_in_shopping_cart, in_shopping_cart, ...prev } = data;
 
-      try {
-        const response = await putMovie({
-          in_shopping_cart: false,
-          quantity_in_shopping_cart: 0,
-          ...prev,
-        });
+    const payload = {
+      ...prev,
+      quantity_in_shopping_cart: value,
+      in_shopping_cart: true,
+    };
 
-        return 500;
-      } catch (error) {
-        enqueueSnackbar("Não foi possível finalizar compra, tente novamente!");
-      }
-    });
-
-    setItemsInCart(0);
-
-    return loopMovies;
+    try {
+      putMovie(payload);
+    } catch (error) {
+      enqueueSnackbar("Erro ao remover Item", { variant: "error" });
+    }
   };
 
   const removeItem = async (data: EntityMovies) => {
@@ -79,27 +70,31 @@ const useMovies = () => {
 
     try {
       putMovie(payload);
-      dispatchTrigger();
     } catch (error) {
       enqueueSnackbar("Erro ao remover Item", { variant: "error" });
     }
   };
 
-  const addItemInCart = async (data: EntityMovies, value: number) => {
-    const { quantity_in_shopping_cart, in_shopping_cart, ...prev } = data;
+  const clearCart = () => {
+    const loopMovies = moviesInCart.map(async (movie) => {
+      const { in_shopping_cart, quantity_in_shopping_cart, ...prev } = movie;
 
-    const payload = {
-      ...prev,
-      quantity_in_shopping_cart: value,
-      in_shopping_cart: true,
-    };
+      try {
+        const response = await putMovie({
+          in_shopping_cart: false,
+          quantity_in_shopping_cart: 0,
+          ...prev,
+        });
 
-    try {
-      putMovie(payload);
-      dispatchTrigger();
-    } catch (error) {
-      enqueueSnackbar("Erro ao remover Item", { variant: "error" });
-    }
+        return response;
+      } catch (error) {
+        enqueueSnackbar("Não foi possível finalizar compra, tente novamente!");
+      }
+    });
+
+    setItemsInCart(0);
+
+    return loopMovies;
   };
 
   return {
@@ -107,7 +102,6 @@ const useMovies = () => {
     removeItem,
     fetchMovies,
     addItemInCart,
-    dispatchTrigger,
     loading,
     data: {
       movies,

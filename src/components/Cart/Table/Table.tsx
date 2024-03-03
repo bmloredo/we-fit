@@ -4,7 +4,7 @@ import Image from "next/image";
 import { formatPrice } from "@/utils/formatPrice";
 import {
   HeadCell,
-  TablePrincipal,
+  TableMain,
   Cell,
   ContainerProductTable,
   RemoveButton,
@@ -22,7 +22,7 @@ export default function Table({ data, addItemInCart, removeItem }: TableProps) {
   const headers = ["produto", "qtd", "subtotal", ""];
 
   return (
-    <TablePrincipal>
+    <TableMain>
       <thead>
         <tr>
           {headers.map((header: string, index) => (
@@ -74,6 +74,6 @@ export default function Table({ data, addItemInCart, removeItem }: TableProps) {
           </tr>
         ))}
       </tbody>
-    </TablePrincipal>
+    </TableMain>
   );
 }

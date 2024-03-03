@@ -27,7 +27,7 @@ export default function OrderMobile({
   return (
     <>
       {data.map((movie) => (
-        <ContainerOrderMobile>
+        <ContainerOrderMobile key={movie.id}>
           <Image src={movie.image} alt={movie.title} width={64} height={82} />
           <ContainerInformation>
             <InformationMovie>

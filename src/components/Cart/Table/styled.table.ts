@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const TablePrincipal = styled.table`
+export const TableMain = styled.table`
   display: inline-table;
   width: 100%;
 `;
