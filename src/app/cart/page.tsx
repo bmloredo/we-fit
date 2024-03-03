@@ -1,8 +1,8 @@
-import React from 'react';
-
+import React from "react";
+import CartMovies from "../../components/Cart/CartMovies";
 
 const Cart: React.FC = () => {
-  return <div>Carrinho</div>;
-}
+  return <CartMovies />;
+};
 
 export default Cart;

@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
-import { enqueueSnackbar } from "notistack";
 import { useMoviesContext } from "@/contexts/contextMovies";
 import { getMovies } from "@/services/getMovies";
 import { putMovie } from "@/services/putMovies";
+import { enqueueSnackbar } from "notistack";
+import { useCallback, useEffect, useState } from "react";
 
 const useMovies = () => {
   const { setItemsInCart } = useMoviesContext();
@@ -11,8 +11,6 @@ const useMovies = () => {
 
   const [movies, setMovies] = useState<EntityMovies[]>([]);
   const [moviesInCart, setMoviesInCart] = useState<EntityMovies[]>([]);
-  
-  
   const [trigger, setTrigger] = useState(false);
 
   const dispatchTrigger = () => setTrigger(!trigger);
@@ -34,7 +32,7 @@ const useMovies = () => {
       setItemsInCart(itemsInCart.length);
     } catch (error) {
       setLoading(false);
-      enqueueSnackbar("Filmes não encontrados", { variant: "error" });
+      enqueueSnackbar("Filmes não encontrados!");
     } finally {
       setLoading(false);
     }
@@ -47,18 +45,27 @@ const useMovies = () => {
 
   useEffect(() => {
     fetchMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trigger]);
 
   const clearCart = () => {
-    const loopMovies = moviesInCart.map((movie) => {
+    const loopMovies = moviesInCart.map(async (movie) => {
       const { in_shopping_cart, quantity_in_shopping_cart, ...prev } = movie;
 
-      putMovie({
-        in_shopping_cart: false,
-        quantity_in_shopping_cart: 0,
-        ...prev,
-      });
+      try {
+        const response = await putMovie({
+          in_shopping_cart: false,
+          quantity_in_shopping_cart: 0,
+          ...prev,
+        });
+
+        return 500;
+      } catch (error) {
+        enqueueSnackbar("Não foi possível finalizar compra, tente novamente!");
+      }
     });
+
+    console.log(loopMovies, "loopMovies");
 
     setItemsInCart(0);
 
@@ -84,6 +91,7 @@ const useMovies = () => {
 
   const addItemInCart = async (data: EntityMovies, value: number) => {
     const { quantity_in_shopping_cart, in_shopping_cart, ...prev } = data;
+
     const payload = {
       ...prev,
       quantity_in_shopping_cart: value,

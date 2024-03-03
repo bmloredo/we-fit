@@ -1,7 +1,8 @@
-import React from 'react';
+import React from "react";
+import Purchase from "../../components/Purchase";
 
 const FinalizePurchase: React.FC = () => {
-  return <div>Compra finalizada</div>;
-}
+  return <Purchase />;
+};
 
 export default FinalizePurchase;

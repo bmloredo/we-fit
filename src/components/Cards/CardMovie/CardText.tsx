@@ -10,8 +10,10 @@ interface CardTextProps {
 const CardText = ({ title, price }: CardTextProps) => {
   return (
     <CardContainerText>
-      <TextCard color="#333333" size='12px'>{title}</TextCard>
-      <TextCard>R$ {formatPrice(price)}</TextCard>
+      <TextCard color="#333333">{title}</TextCard>
+      <TextCard color="#2F2E41" size="16px">
+        R$ {formatPrice(price)}
+      </TextCard>
     </CardContainerText>
   );
 };
