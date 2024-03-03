@@ -3,6 +3,7 @@
 import React from "react";
 import { SnackbarProvider } from "notistack";
 import Header from "../Header";
+import { ContainerLayoutProvider } from "./styled.layout";
 
 const LayoutProviderNotify: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -10,7 +11,7 @@ const LayoutProviderNotify: React.FC<{ children: React.ReactNode }> = ({
   return (
     <SnackbarProvider>
       <Header />
-      {children}
+      <ContainerLayoutProvider>{children}</ContainerLayoutProvider>
     </SnackbarProvider>
   );
 };

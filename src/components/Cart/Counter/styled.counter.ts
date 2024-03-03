@@ -6,6 +6,10 @@ export const ContainerCounter = styled.div`
   max-width: 7.5rem;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 768px) {
+    width: 51%;
+  }
 `;
 
 export const CountButton = styled.div`

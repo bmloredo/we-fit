@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 export const ContainerProducts = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: 16px;
-  gap: 22px;
+  gap: 21px;
   border-radius: 4px;
   background-color: #fff;
-  margin-right: 15.313rem;
-  margin-left: 15.313rem;
 `;
 
 export const Purshase = styled.div`
@@ -15,6 +15,10 @@ export const Purshase = styled.div`
   border-top: 1px solid #999;
   padding-top: 21px;
   gap: 16px;
+
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 export const ContainerTotal = styled.div`
@@ -23,4 +27,8 @@ export const ContainerTotal = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
+  @media (max-width: 768px) {
+    gap: 16px;
+  }
 `;

@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import {
   Container,
@@ -13,14 +12,18 @@ import { useRouter } from "next/navigation";
 
 const Header: React.FC = () => {
   const { push } = useRouter();
-  const { itemsInCart } = useMoviesContext();
+  const { itemsInCart, isMobile } = useMoviesContext();
 
   return (
     <Container>
       <LinkHome href="/">WeMovies</LinkHome>
       <ContainerMyCart onClick={() => push("/cart")}>
         <MyCartBox>
-          <TextMyCart weight={600}>Meu carrinho</TextMyCart>
+          {!isMobile && (
+            <TextMyCart weight={600} color="#fff">
+              Meu carrinho
+            </TextMyCart>
+          )}
           <TextMyCart color="#999">{itemsInCart} itens</TextMyCart>
         </MyCartBox>
         <ShoppingBag />

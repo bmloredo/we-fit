@@ -65,8 +65,6 @@ const useMovies = () => {
       }
     });
 
-    console.log(loopMovies, "loopMovies");
-
     setItemsInCart(0);
 
     return loopMovies;
@@ -85,7 +83,7 @@ const useMovies = () => {
       putMovie(payload);
       dispatchTrigger();
     } catch (error) {
-      console.log(error);
+      enqueueSnackbar("Erro ao remover Item", { variant: "error" });
     }
   };
 
@@ -102,7 +100,7 @@ const useMovies = () => {
       putMovie(payload);
       dispatchTrigger();
     } catch (error) {
-      console.log(error);
+      enqueueSnackbar("Erro ao remover Item", { variant: "error" });
     }
   };
 

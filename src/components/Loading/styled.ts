@@ -8,7 +8,7 @@ export const ContainerLoading = styled.div`
   height: calc(100vh - 175px);
 `;
 
-export const Loading = styled.span`
+export const LoadingFrame = styled.span`
   position: relative;
   width: 75px;
   height: 75px;

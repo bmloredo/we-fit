@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div<{ width?: string }>`
   display: flex;
   padding: 8px;
   align-items: center;
@@ -8,5 +8,5 @@ export const ButtonContainer = styled.div`
   background-color: #009edd;
   border-radius: 4px;
   cursor: pointer;
-  width: 11.25rem;
+  width: ${(props) => props.width || "auto"};
 `;

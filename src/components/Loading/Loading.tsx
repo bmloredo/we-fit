@@ -1,13 +1,12 @@
 import React from "react";
-import { ContainerLoading, Loading } from "./styled";
+import { ContainerLoading, LoadingFrame } from "./styled";
 
-
-const LoadingSpinner: React.FC = () => {
+const Loading: React.FC = () => {
   return (
     <ContainerLoading>
-      <Loading />
+      <LoadingFrame />
     </ContainerLoading>
   );
 };
 
-export default LoadingSpinner;
+export default Loading;

@@ -2,14 +2,14 @@
 import React from "react";
 import { CardsMovies } from "./CardMovie";
 import useMovies from "@/hooks/useMovies";
-import LoadingSpinner from "../Loading/Loading";
 import { CardContainer } from "./styled.card";
+import Loading from "../Loading/Loading";
 
 const Cards: React.FC = () => {
   const { data, addItemInCart, loading } = useMovies();
 
   return loading ? (
-    <LoadingSpinner />
+    <Loading />
   ) : (
     <CardContainer>
       {data.movies.map((movie) => (

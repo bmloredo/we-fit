@@ -6,11 +6,14 @@ export const CardContainerRoot = styled.div`
   gap: 16px;
   padding: 10px 11px 10px 11px;
   width: 100%;
-  max-width: 21.5rem;
+  max-width: 19.333rem;
   align-items: center;
   border-radius: 4px;
   background-color: #fff;
-  min-width: 350px;
+
+  @media (max-width: 768px) {
+    max-width: 21.5rem;
+  }
 `;
 
 export const CardContainerImage = styled.div`

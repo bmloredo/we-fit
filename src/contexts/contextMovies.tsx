@@ -1,10 +1,17 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 interface MoviesContextType {
   itemsInCart: number;
   setItemsInCart: (count: number) => void;
+  isMobile: boolean;
 }
 
 const MoviesContext = createContext<MoviesContextType | null>(null);
@@ -16,8 +23,18 @@ interface MoviesProviderProps {
 export const MoviesProvider: React.FC<MoviesProviderProps> = ({ children }) => {
   const [itemsInCart, setItemsInCart] = useState<number>(0);
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handler);
+    handler(); // Inicializa no carregamento
+
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+
   return (
-    <MoviesContext.Provider value={{ itemsInCart, setItemsInCart }}>
+    <MoviesContext.Provider value={{ itemsInCart, setItemsInCart, isMobile }}>
       {children}
     </MoviesContext.Provider>
   );
