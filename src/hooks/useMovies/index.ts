@@ -17,7 +17,6 @@ const useMovies = () => {
 
   const fetchMovies = useCallback(async () => {
     movies.length === 0 && setLoading(true);
-
     try {
       if (movies.length === 0) {
         await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -32,7 +31,7 @@ const useMovies = () => {
       setItemsInCart(itemsInCart.length);
     } catch (error) {
       setLoading(false);
-      enqueueSnackbar("Filmes não encontrados!");
+      enqueueSnackbar("Filmes não encontrados!", { variant: "error" });
     } finally {
       setLoading(false);
     }
@@ -45,8 +44,7 @@ const useMovies = () => {
 
   useEffect(() => {
     fetchMovies();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trigger]);
+  }, [fetchMovies]);
 
   const clearCart = () => {
     const loopMovies = moviesInCart.map(async (movie) => {

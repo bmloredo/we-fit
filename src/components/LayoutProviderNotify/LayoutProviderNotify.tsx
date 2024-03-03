@@ -10,8 +10,10 @@ const LayoutProviderNotify: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   return (
     <SnackbarProvider>
-      <Header />
-      <ContainerLayoutProvider>{children}</ContainerLayoutProvider>
+      <ContainerLayoutProvider>
+        <Header />
+        {children}
+      </ContainerLayoutProvider>
     </SnackbarProvider>
   );
 };

@@ -7,10 +7,14 @@ export const Container = styled.div`
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
-  padding: 1.406rem 15rem;
+  padding: 1.406rem 0 1.406rem;
 
   @media (max-width: 768px) {
     padding: 1rem;
+  }
+
+  @media (min-width: 1780px) {
+    padding: 1.406rem 9rem 1.406rem 0;
   }
 `;
 
