@@ -1,4 +1,3 @@
-import useMovies from "@/hooks/useMovies";
 import React from "react";
 import {
   ContainerButton,
@@ -10,14 +9,14 @@ import ShoppingCart from "../../../../public/Icon/ShoppingCart";
 
 interface CardButtonProps {
   movie: EntityMovies;
-  addItemInCart: (data: EntityMovies, value: number) => void;
+  addMovieToCart: (data: EntityMovies, value: number) => void;
 }
 
-const CardButton = ({ movie, addItemInCart }: CardButtonProps) => {
+const CardButton = ({ movie, addMovieToCart }: CardButtonProps) => {
   return (
     <ContainerButton
       backgroundColor={movie.in_shopping_cart ? "#039B00" : "#009EDD"}
-      onClick={() => addItemInCart(movie, movie.quantity_in_shopping_cart + 1)}
+      onClick={() => addMovieToCart(movie, movie.quantity_in_shopping_cart + 1)}
     >
       <ContentButton>
         <QuantityContainer>

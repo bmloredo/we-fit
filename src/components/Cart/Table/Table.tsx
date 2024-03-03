@@ -14,11 +14,15 @@ import Trash from "../../../../public/Icon/Trash";
 
 interface TableProps {
   data: EntityMovies[];
-  addItemInCart: (data: EntityMovies, value: number) => void;
-  removeItem: (data: EntityMovies) => void;
+  addMovieToCart: (data: EntityMovies, value: number) => void;
+  removeMovieFromCart: (data: EntityMovies) => void;
 }
 
-export default function Table({ data, addItemInCart, removeItem }: TableProps) {
+export default function Table({
+  data,
+  addMovieToCart,
+  removeMovieFromCart,
+}: TableProps) {
   const headers = ["produto", "qtd", "subtotal", ""];
 
   return (
@@ -58,7 +62,7 @@ export default function Table({ data, addItemInCart, removeItem }: TableProps) {
             <Cell>
               <Counter
                 value={item.quantity_in_shopping_cart}
-                handleChange={(value) => addItemInCart(item, value)}
+                handleChange={(value) => addMovieToCart(item, value)}
               />
             </Cell>
             <Cell>
@@ -67,7 +71,7 @@ export default function Table({ data, addItemInCart, removeItem }: TableProps) {
               </Text>
             </Cell>
             <Cell>
-              <RemoveButton onClick={() => removeItem(item)}>
+              <RemoveButton onClick={() => removeMovieFromCart(item)}>
                 <Trash />
               </RemoveButton>
             </Cell>

@@ -9,40 +9,21 @@ export const ContainerLoading = styled.div`
 `;
 
 export const LoadingFrame = styled.span`
-  position: relative;
-  width: 75px;
-  height: 75px;
+  width: 50px;
+  padding: 8px;
+  aspect-ratio: 1;
   border-radius: 50%;
-  border: 4px solid #2f2e41;
-  background: conic-gradient(
-    from 90deg at 50% 50%,
-    rgba(128, 128, 128, 0.0001) -46.17deg,
-    #ffffff 313.55deg,
-    rgba(128, 128, 128, 0.0001) 313.83deg,
-    #ffffff 673.55deg
-  );
-  box-shadow: 0 0 100px -50px black;
-  animation: rotation 1s linear infinite;
+  background: #fff;
+  --_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+  mask: var(--_m);
+  -webkit-mask-composite: source-out;
+  mask-composite: subtract;
+  animation: l3 1s infinite linear;
 
-  &::before {
-    content: "";
-    position: absolute;
-    background: #2f2e41;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 70%;
-    height: 70%;
-    border-radius: 50%;
-    border: 6px solid #2f2e41;
-  }
-
-  @keyframes rotation {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
+  @keyframes l3 {
+    to {
+      transform: rotate(1turn);
     }
   }
 `;

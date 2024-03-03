@@ -15,14 +15,14 @@ import Counter from "../Counter";
 
 interface OrderMobileProps {
   data: EntityMovies[];
-  removeItem: (data: EntityMovies) => void;
-  addItemInCart: (data: EntityMovies, value: number) => void;
+  removeMovieFromCart: (data: EntityMovies) => void;
+  addMovieToCart: (data: EntityMovies, value: number) => void;
 }
 
 export default function OrderMobile({
   data,
-  removeItem,
-  addItemInCart,
+  removeMovieFromCart,
+  addMovieToCart,
 }: OrderMobileProps) {
   return (
     <>
@@ -37,14 +37,14 @@ export default function OrderMobile({
               <Text color="#2F2E41" fontSize={16} fontWeight={700}>
                 R$ {formatPrice(movie.price)}
               </Text>
-              <ContainerIcon onClick={() => removeItem(movie)}>
+              <ContainerIcon onClick={() => removeMovieFromCart(movie)}>
                 <Trash />
               </ContainerIcon>
             </InformationMovie>
             <ContainerCounter>
               <Counter
                 value={movie.quantity_in_shopping_cart}
-                handleChange={(e) => addItemInCart(movie, e)}
+                handleChange={(e) => addMovieToCart(movie, e)}
               />
               <ContainerSubTotal>
                 <Text color="#999" fontSize={12} fontWeight={700}>

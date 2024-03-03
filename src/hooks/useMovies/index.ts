@@ -1,113 +1,122 @@
+import { useCallback, useEffect, useState } from "react";
 import { useMoviesContext } from "@/contexts/contextMovies";
 import { getMovies } from "@/services/getMovies";
 import { putMovie } from "@/services/putMovies";
 import { enqueueSnackbar } from "notistack";
-import { useCallback, useEffect, useState } from "react";
 
-const useMovies = () => {
+const useMovies = (): UseMoviesReturn => {
   const { setItemsInCart } = useMoviesContext();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [moviesData, setMoviesData] = useState<MoviesData>({
+    movies: [],
+    moviesInCart: [],
+    priceTotalCart: 0,
+  });
 
-  const [movies, setMovies] = useState<EntityMovies[]>([]);
-  const [moviesInCart, setMoviesInCart] = useState<EntityMovies[]>([]);
-
-  const fetchMovies = useCallback(async () => {
-    movies.length === 0 && setLoading(true);
+  const fetchMovies = useCallback(async (): Promise<void> => {
     try {
-      if (movies.length === 0) {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+      setLoading(true);
+
+      if (moviesData.movies.length === 0) {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
       }
 
       const data = await getMovies();
-      setMovies(data);
-
       const itemsInCart = data.filter((item) => item.in_shopping_cart);
-      setMoviesInCart(itemsInCart);
-
+      setMoviesData({
+        movies: data,
+        moviesInCart: itemsInCart,
+        priceTotalCart: calculateTotalPrice(data),
+      });
       setItemsInCart(itemsInCart.length);
     } catch (error) {
-      setLoading(false);
       enqueueSnackbar("Filmes não encontrados!", { variant: "error" });
     } finally {
       setLoading(false);
     }
-  }, [movies, setItemsInCart]);
-
-  const priceTotalCart = moviesInCart.reduce(
-    (total, objeto) => total + objeto.price * objeto.quantity_in_shopping_cart,
-    0
-  );
+  }, [setItemsInCart]);
 
   useEffect(() => {
     fetchMovies();
   }, [fetchMovies]);
 
-  const addItemInCart = async (data: EntityMovies, value: number) => {
-    const { quantity_in_shopping_cart, in_shopping_cart, ...prev } = data;
+  const calculateTotalPrice = (movies: EntityMovies[]): number => {
+    return movies.reduce(
+      (total, movie) => total + movie.price * movie.quantity_in_shopping_cart,
+      0
+    );
+  };
 
-    const payload = {
-      ...prev,
-      quantity_in_shopping_cart: value,
-      in_shopping_cart: true,
-    };
-
+  const updateMovieInCart = async (
+    updatedMovie: EntityMovies
+  ): Promise<void> => {
     try {
-      putMovie(payload);
+      const updatedMovies = moviesData.movies.map((movie) =>
+        movie.id === updatedMovie.id ? updatedMovie : movie
+      );
+      const updatedMoviesInCart = updatedMovies.filter(
+        (movie) => movie.in_shopping_cart
+      );
+      setMoviesData({
+        movies: updatedMovies,
+        moviesInCart: updatedMoviesInCart,
+        priceTotalCart: calculateTotalPrice(updatedMovies),
+      });
+      setItemsInCart(updatedMoviesInCart.length);
+      await putMovie(updatedMovie);
     } catch (error) {
-      enqueueSnackbar("Erro ao remover Item", { variant: "error" });
+      enqueueSnackbar("Erro ao atualizar Item", { variant: "error" });
     }
   };
 
-  const removeItem = async (data: EntityMovies) => {
-    const { quantity_in_shopping_cart, ...prev } = data;
+  const addMovieToCart = async (
+    data: EntityMovies,
+    quantity: number
+  ): Promise<void> => {
+    const updatedMovie = {
+      ...data,
+      quantity_in_shopping_cart: quantity,
+      in_shopping_cart: true,
+    };
+    await updateMovieInCart(updatedMovie);
+  };
 
-    const payload = {
-      ...prev,
+  const removeMovieFromCart = async (data: EntityMovies): Promise<void> => {
+    const updatedMovie = {
+      ...data,
       quantity_in_shopping_cart: 0,
       in_shopping_cart: false,
     };
+    await updateMovieInCart(updatedMovie);
+  };
 
+  const clearCart = async (): Promise<void> => {
     try {
-      putMovie(payload);
+      const clearedMovies = moviesData.movies.map((movie) => ({
+        ...movie,
+        quantity_in_shopping_cart: 0,
+        in_shopping_cart: false,
+      }));
+      setMoviesData({
+        movies: clearedMovies,
+        moviesInCart: [],
+        priceTotalCart: 0,
+      });
+      await Promise.all(clearedMovies.map((movie) => putMovie(movie)));
+      setItemsInCart(0);
     } catch (error) {
-      enqueueSnackbar("Erro ao remover Item", { variant: "error" });
+      enqueueSnackbar("Erro ao limpar carrinho", { variant: "error" });
     }
   };
 
-  const clearCart = () => {
-    const loopMovies = moviesInCart.map(async (movie) => {
-      const { in_shopping_cart, quantity_in_shopping_cart, ...prev } = movie;
-
-      try {
-        const response = await putMovie({
-          in_shopping_cart: false,
-          quantity_in_shopping_cart: 0,
-          ...prev,
-        });
-
-        return response;
-      } catch (error) {
-        enqueueSnackbar("Não foi possível finalizar compra, tente novamente!");
-      }
-    });
-
-    setItemsInCart(0);
-
-    return loopMovies;
-  };
-
   return {
-    clearCart,
-    removeItem,
-    fetchMovies,
-    addItemInCart,
     loading,
-    data: {
-      movies,
-      moviesInCart,
-      priceTotalCart,
-    },
+    fetchMovies,
+    addMovieToCart,
+    removeMovieFromCart,
+    clearCart,
+    data: moviesData,
   };
 };
 

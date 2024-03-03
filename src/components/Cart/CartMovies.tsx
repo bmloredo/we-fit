@@ -13,7 +13,8 @@ import OrderMobile from "./OrderMobile";
 import Loading from "../Loading/Loading";
 
 export default function CartMovies() {
-  const { data, loading, addItemInCart, removeItem, clearCart } = useMovies();
+  const { data, loading, addMovieToCart, removeMovieFromCart, clearCart } =
+    useMovies();
   const { push } = useRouter();
   const { isMobile } = useMoviesContext();
 
@@ -31,13 +32,13 @@ export default function CartMovies() {
       {!isMobile ? (
         <Table
           data={data.moviesInCart}
-          addItemInCart={addItemInCart}
-          removeItem={removeItem}
+          addMovieToCart={addMovieToCart}
+          removeMovieFromCart={removeMovieFromCart}
         />
       ) : (
         <OrderMobile
-          addItemInCart={addItemInCart}
-          removeItem={removeItem}
+          addMovieToCart={addMovieToCart}
+          removeMovieFromCart={removeMovieFromCart}
           data={data.moviesInCart}
         />
       )}
