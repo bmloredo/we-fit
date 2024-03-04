@@ -23,7 +23,7 @@ const useMovies = (): UseMoviesReturn => {
       }
 
       const data = await getMovies();
-      const itemsInCart = data.filter((item) => item.in_shopping_cart);
+      const itemsInCart = data.filter((item) => item.movie_in_cart);
       setMoviesData({
         movies: data,
         moviesInCart: itemsInCart,
@@ -43,7 +43,7 @@ const useMovies = (): UseMoviesReturn => {
 
   const calculateTotalPrice = (movies: EntityMovies[]): number => {
     return movies.reduce(
-      (total, movie) => total + movie.price * movie.quantity_in_shopping_cart,
+      (total, movie) => total + movie.price * movie.quantity_movie_in_cart,
       0
     );
   };
@@ -56,7 +56,7 @@ const useMovies = (): UseMoviesReturn => {
         movie.id === updatedMovie.id ? updatedMovie : movie
       );
       const updatedMoviesInCart = updatedMovies.filter(
-        (movie) => movie.in_shopping_cart
+        (movie) => movie.movie_in_cart
       );
       setMoviesData({
         movies: updatedMovies,
@@ -76,8 +76,8 @@ const useMovies = (): UseMoviesReturn => {
   ): Promise<void> => {
     const updatedMovie = {
       ...data,
-      quantity_in_shopping_cart: quantity,
-      in_shopping_cart: true,
+      quantity_movie_in_cart: quantity,
+      movie_in_cart: true,
     };
     await updateMovieInCart(updatedMovie);
   };
@@ -85,8 +85,8 @@ const useMovies = (): UseMoviesReturn => {
   const removeMovieFromCart = async (data: EntityMovies): Promise<void> => {
     const updatedMovie = {
       ...data,
-      quantity_in_shopping_cart: 0,
-      in_shopping_cart: false,
+      quantity_movie_in_cart: 0,
+      movie_in_cart: false,
     };
     await updateMovieInCart(updatedMovie);
   };
@@ -95,8 +95,8 @@ const useMovies = (): UseMoviesReturn => {
     try {
       const clearedMovies = moviesData.movies.map((movie) => ({
         ...movie,
-        quantity_in_shopping_cart: 0,
-        in_shopping_cart: false,
+        quantity_movie_in_cart: 0,
+        movie_in_cart: false,
       }));
       setMoviesData({
         movies: clearedMovies,

@@ -15,16 +15,16 @@ interface CardButtonProps {
 const CardButton = ({ movie, addMovieToCart }: CardButtonProps) => {
   return (
     <ContainerButton
-      backgroundColor={movie.in_shopping_cart ? "#039B00" : "#009EDD"}
-      onClick={() => addMovieToCart(movie, movie.quantity_in_shopping_cart + 1)}
+      backgroundColor={movie.movie_in_cart ? "#039B00" : "#009EDD"}
+      onClick={() => addMovieToCart(movie, movie.quantity_movie_in_cart + 1)}
     >
       <ContentButton>
         <QuantityContainer>
           <ShoppingCart />
-          <TextCard color="#fff">{movie.quantity_in_shopping_cart}</TextCard>
+          <TextCard color="#fff">{movie.quantity_movie_in_cart}</TextCard>
         </QuantityContainer>
         <TextCard color="#fff">
-          {movie.in_shopping_cart ? "ITEM ADICIONADO" : "ADICIONAR AO CARRINHO"}
+          {movie.movie_in_cart ? "ITEM ADICIONADO" : "ADICIONAR AO CARRINHO"}
         </TextCard>
       </ContentButton>
     </ContainerButton>

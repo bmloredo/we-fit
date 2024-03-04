@@ -43,7 +43,7 @@ export default function OrderMobile({
             </InformationMovie>
             <ContainerCounter>
               <Counter
-                value={movie.quantity_in_shopping_cart}
+                value={movie.quantity_movie_in_cart}
                 handleChange={(e) => addMovieToCart(movie, e)}
               />
               <ContainerSubTotal>
@@ -51,8 +51,7 @@ export default function OrderMobile({
                   SUBTOTAL
                 </Text>
                 <Text color="#2F2E41" fontWeight={700}>
-                  R${" "}
-                  {formatPrice(movie.price * movie.quantity_in_shopping_cart)}
+                  R$ {formatPrice(movie.price * movie.quantity_movie_in_cart)}
                 </Text>
               </ContainerSubTotal>
             </ContainerCounter>

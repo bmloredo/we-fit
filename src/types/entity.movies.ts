@@ -3,8 +3,8 @@ type EntityMovies = {
   title: string;
   price: number;
   image: string;
-  in_shopping_cart: boolean;
-  quantity_in_shopping_cart: number;
+  movie_in_cart: boolean;
+  quantity_movie_in_cart: number;
 };
 
 interface MoviesData {

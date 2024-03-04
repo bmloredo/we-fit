@@ -61,13 +61,13 @@ export default function Table({
             </Cell>
             <Cell>
               <Counter
-                value={item.quantity_in_shopping_cart}
+                value={item.quantity_movie_in_cart}
                 handleChange={(value) => addMovieToCart(item, value)}
               />
             </Cell>
             <Cell>
               <Text fontSize={16} fontWeight={700}>
-                R$ {formatPrice(item.price * item.quantity_in_shopping_cart)}
+                R$ {formatPrice(item.price * item.quantity_movie_in_cart)}
               </Text>
             </Cell>
             <Cell>
