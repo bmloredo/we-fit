@@ -16,6 +16,10 @@ export const Container = styled.div`
   @media (min-width: 1780px) {
     padding: 1.406rem 9rem 1.406rem 0;
   }
+
+  @media (max-width: 1200px) {
+    padding: 1.406rem 1rem 1.406rem 0;
+  }
 `;
 
 export const LinkHome = styled(Link)`
